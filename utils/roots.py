@@ -3,12 +3,19 @@ import numpy as np
 def getPairs(F, interval, N=100):
     x = np.linspace(interval[0], interval[1], 100)
     y = F(x)
+
     ysign = np.sign(y)
-    yroll = np.roll(ysign, 1); yroll[0] = 1
+    yroll = np.roll(ysign, 1); yroll[0] = yroll[1]
     ysign_change = ((yroll - ysign) != 0).astype(int)
     mask = np.roll(ysign_change, -1) + ysign_change
-    M = x[mask == 1]
-    return list(zip(M[::2], M[1::2]))
+
+    Mx = x[mask == 1]
+    My = y[mask == 1]
+
+    xpairs = list(zip(Mx[::2], Mx[1::2]))
+    ypairs = list(zip(My[::2], My[1::2]))
+
+    return xpairs, ypairs
 
 def bisection(F, xminus, xplus, max_iters=1000, eps=1e-6):
 
@@ -32,10 +39,9 @@ def automateSearch(F, interval, method='bisection', **kwargs):
     Keep that in mind.
     '''
     roots = []
-    xpairs = getPairs(F, interval)
+    xpairs, ypairs = getPairs(F, interval)
 
-    for xpair in xpairs:
-        ypair = F(np.array(xpair))
+    for xpair, ypair in list(zip(xpairs, ypairs)):
         pair = list(zip(ypair, xpair)); pair.sort()
         xminus = pair[0][1]; xplus = pair[1][1]
 
