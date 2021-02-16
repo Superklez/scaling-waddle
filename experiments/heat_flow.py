@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 
 Nx = 101
 Nt = 100000
-Dx = 0.03   # diverges at 0.015
-Dt = 0.15    # diverges at 4.65
+Dx = 0.03    # diverges at 0.00763
+Dt = 0.15    # diverges at 2.32
 
 kappa = 237 # conductivity
 c = 900     # specific heat
