@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def main(wc, num:int=1000):
+def main(wc:float, num:int=1000):
     Ns = [1, 7, 19]
     W = np.linspace(-np.pi, np.pi, num)
     def func(w):

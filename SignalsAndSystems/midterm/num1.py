@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def main(T, nmax:int=20, num:int=1000, minmax:list=None):
+def main(T:float, nmax:int=20, num:int=1000, minmax:list=None):
     def func(t):
         T0 = T; w0 = 2*np.pi/T0
         return 4/np.pi * sum(np.sin(nrnge*w0*t)/nrnge)

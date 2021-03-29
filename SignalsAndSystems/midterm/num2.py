@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def main(n=1000, nmax:int=20, minmax:list=None):
+def main(n:int=1000, nmax:int=20, minmax:list=None):
     def func(t):
         T0 = 2*np.pi; w0 = 2*np.pi/T0
         return 1/4 + sum(np.cos(nrnge*t)*(np.cos(nrnge*np.pi)-1)/nrnge**2/
