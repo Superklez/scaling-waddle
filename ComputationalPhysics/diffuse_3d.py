@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 def diffuse(atoms=400, t=100, T=300, xlims=(-15, 15), ylims=(-15, 15), zlims=(-15,15), nx=4, ny=4, nz=4, random_state=0):
 
@@ -77,7 +78,6 @@ def diffuse(atoms=400, t=100, T=300, xlims=(-15, 15), ylims=(-15, 15), zlims=(-1
     return diffused_atoms, entropy_vals
 
 if __name__ == '__main__':
-    import matplotlib.pyplot as plt
     xlims = (-9, 9)
     ylims = (-9, 9)
     zlims = (-9, 9)
