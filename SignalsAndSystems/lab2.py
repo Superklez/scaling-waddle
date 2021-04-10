@@ -9,11 +9,7 @@ def getPlot(f:float=10, fs:float=100, minmax:list=[-20, 21], save:str=None):
 
     nT = np.arange(minmax[0], minmax[1]) / fs
     xc = func(nT, f)
-
-    if save:
-        fig, ax = plt.subplots(1, 1, figsize=(7, 5), dpi=200)
-    else:
-        fig, ax = plt.subplots(1, 1, figsize=(7, 5))
+    fig, ax = plt.subplots(1, 1, figsize=(7, 5))
     ax.scatter(nT, xc, zorder=3)
     ax.plot(nT, xc, zorder=3)
     ax.set_xlabel('$t=nT$')
@@ -23,8 +19,6 @@ def getPlot(f:float=10, fs:float=100, minmax:list=[-20, 21], save:str=None):
     ax.axvline(x=0, color='k', zorder=2)
     ax.grid(zorder=1)
     plt.tight_layout()
-    if save:
-        plt.savefig(sv)
     plt.show()
 
 sampling_rates = {'1':100, '2':150}
