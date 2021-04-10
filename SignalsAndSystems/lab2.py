@@ -2,13 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from numpy import ndarray
 
-def getPlot(f:float=10, fs:float=100, minmax:list=[-20, 21], save:str=None):
+def getPlot(f:float=10, fs:float=100, minmax:list=[-20, 21]):
 
     def func(nT:ndarray, f:float=10):
         return np.sin(2*np.pi*f*nT)
 
     nT = np.arange(minmax[0], minmax[1]) / fs
     xc = func(nT, f)
+    
     fig, ax = plt.subplots(1, 1, figsize=(7, 5))
     ax.scatter(nT, xc, zorder=3)
     ax.plot(nT, xc, zorder=3)
