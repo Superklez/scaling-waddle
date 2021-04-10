@@ -1,9 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from numpy import ndarray
 
 def getPlot(f:float=10, fs:float=100, minmax:list=[-20, 21], save:str=None):
 
-    def func(nT:float, f:float=10):
+    def func(nT:ndarray, f:float=10):
         return np.sin(2*np.pi*f*nT)
 
     nT = np.arange(minmax[0], minmax[1]) / fs
@@ -27,10 +28,11 @@ def getPlot(f:float=10, fs:float=100, minmax:list=[-20, 21], save:str=None):
     plt.show()
 
 sampling_rates = {'1':100, '2':150}
-frequencies = {'1':{'a':10, 'b':90, 'c':20, 'd':80, 'e':36, 'f':64, 'g':49,
-                    'h':51},
-               '2':{'a':10, 'b':90, 'c':140, 'd':20, 'e':80, 'f':130, 'g':36,
-                    'h':64, 'i':114}}
+frequencies = {
+    '1':{'a':10, 'b':90, 'c':20, 'd':80, 'e':36, 'f':64, 'g':49, 'h':51},
+    '2':{'a':10, 'b':90, 'c':140, 'd':20, 'e':80, 'f':130, 'g':36, 'h':64,
+        'i':114}
+}
 
 if __name__ == '__main__':
     print('Choose a number:')
@@ -41,7 +43,7 @@ if __name__ == '__main__':
     while number not in sampling_rates.keys():
         print('-'*30)
         error = list(map(int, sampling_rates.keys()))
-        print(f'ERROR: Number provided not in {error}')
+        print(f'ERROR: Number selected not in {error}')
         number = input('Number: ').strip()
 
     print('-'*30)
@@ -52,7 +54,7 @@ if __name__ == '__main__':
     while letter not in frequencies[number].keys():
         print('-'*30)
         error = list(frequencies[number].keys())
-        print(f'ERROR: Letter provided not in {error}')
+        print(f'ERROR: Letter selected not in {error}')
         letter = input('Letter: ').strip()
 
     print('-'*30)

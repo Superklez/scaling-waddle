@@ -1,12 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from numpy import ndarray
 
-def discreteKronecker(arr, m=0):
+def discreteKronecker(arr:ndarray, m:int=0):
     crr = np.zeros(arr.shape)
     crr[arr == m] = 1
     return crr
 
-def discreteHeaviside(arr, m=0):
+def discreteHeaviside(arr:ndarray, m:int=0):
     crr = np.zeros(arr.shape)
     crr[arr >= m] = 1
     return crr
@@ -228,21 +229,22 @@ functions_cache = {
 }
 
 if __name__ == '__main__':
-    print(f'Choose a number in: {list(range(1, 6))}')
+    numbers = list(range(1, 6))
+    print(f'Choose a number in {numbers}')
     number = int(input('Number: ').strip())
 
-    while number not in range(1, 6):
+    while number not in numbers:
         print('-'*30)
-        print(f'ERROR: Number provided not in {list(range(1, 6))}')
+        print(f'ERROR: Number selected not in {numbers}')
         number = int(input('Number: ').strip())
 
     print('-'*30)
     letters = letters_cache[str(number)]
-    print(f'Choose a letter in: {letters}')
+    print(f'Choose a letter in {letters}')
     letter = input('Letter: ').strip()
     while letter not in letters:
         print('-'*30)
-        print(f'ERROR: Letter provided not in {letters}')
+        print(f'ERROR: Letter selected not in {letters}')
         letter = input('Letter: ').strip()
 
     print('-'*30)

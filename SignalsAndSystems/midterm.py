@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def num1(T:float, nmax:int=20, num:int=1000, minmax:list=None):
-    def func(t):
+    def func(t:float):
         T0 = T; w0 = 2*np.pi/T0
         return 4/np.pi * sum(np.sin(nrnge*w0*t)/nrnge)
     if minmax:
@@ -33,15 +33,12 @@ def num1(T:float, nmax:int=20, num:int=1000, minmax:list=None):
     plt.tight_layout()
     plt.show()
 
-def num2(n:int=1000, nmax:int=20, minmax:list=None):
-    def func(t):
+def num2(n:int=1000, nmax:int=20, minmax:list=[-3*np.pi, 3*np.pi]):
+    def func(t:float):
         T0 = 2*np.pi; w0 = 2*np.pi/T0
         return 1/4 + sum(np.cos(nrnge*t)*(np.cos(nrnge*np.pi)-1)/nrnge**2/
             np.pi**2) - sum(np.sin(nrnge*t)*np.cos(nrnge*np.pi)/nrnge/np.pi)
-    if minmax:
-        a, b = minmax
-    else:
-        a, b = -3*np.pi, 3*np.pi
+    a, b = minmax
     arr = np.linspace(a, b, n); crr = np.zeros(arr.shape)
     rnge = np.arange(0., b+1, np.pi)
     nrnge = np.arange(1, nmax); trnge = np.linspace(a, b, 1000)
@@ -82,7 +79,7 @@ def num2(n:int=1000, nmax:int=20, minmax:list=None):
 def num3(wc:float, num:int=1000):
     Ns = [1, 7, 19]
     W = np.linspace(-np.pi, np.pi, num)
-    def func(w):
+    def func(w:float):
         return wc/np.pi + 2*sum(
             np.sin(wc*nrnge)/(np.pi*nrnge)*np.cos(w*nrnge))
     fig, ax = plt.subplots(1, 3, figsize=(17, 5))
@@ -103,12 +100,9 @@ def num3(wc:float, num:int=1000):
     plt.tight_layout()
     plt.show()
 
-def num4(a:float=0.5, num:int=1000, minmax:list=None):
-    if minmax:
-        start, stop = minmax
-        w = np.linspace(start, stop, n)
-    else:
-        w = np.linspace(-np.pi, np.pi, num)
+def num4(a:float=0.5, num:int=1000, minmax:list=[-np.pi, np.pi]):
+    start, stop = minmax
+    w = np.linspace(start, stop, num)
     z = 1/(1-a*(np.cos(w)-1j*np.sin(w)))
     fig, ax = plt.subplots(1, 2, figsize=(12, 5))
     for i, z in enumerate([z.real, z.imag]):
@@ -129,12 +123,14 @@ def num4(a:float=0.5, num:int=1000, minmax:list=None):
     plt.show()
 
 if __name__ == '__main__':
-    number = int(input(f'Choose a number in {list(range(1, 5))}: ').strip())
+    numbers = list(range(1, 5))
+    print(f'Choose a number in {numbers}')
+    number = int(input('Number: ').strip())
 
-    while number not in range(1, 5):
+    while number not in numbers:
         print('-'*45)
-        print(f'ERROR: Number provided not in {list(range(1, 5))}')
-        number = int(input(f'Choose a number in {list(range(1, 5))}: ').strip())
+        print(f'ERROR: Number provided not in {numbers}')
+        number = int(input('Number: ').strip())
 
     print('-'*45)
     print(f'Selected number: {number}')
