@@ -1,18 +1,27 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy import ndarray
 
-def getPlot(f:float=10, fs:float=100, minmax:list=[-20, 21]):
+def getPlot(f:float=10, fs:float=100, minmax:list=[-20, 21],
+        compare:bool=False):
 
-    def func(nT:ndarray, f:float=10):
+    def func(t:float, f:float=10):
+        return np.sin(2*np.pi*f*t)
+
+    def samp(nT:float, f:float=10):
         return np.sin(2*np.pi*f*nT)
 
+    if compare:
+        t = np.linspace(minmax[0], minmax[1], 1000) / fs
+        x = func(t, f)
     nT = np.arange(minmax[0], minmax[1]) / fs
-    xc = func(nT, f)
-    
+    xc = samp(nT, f)
+
     fig, ax = plt.subplots(1, 1, figsize=(7, 5))
-    ax.scatter(nT, xc, zorder=3)
-    ax.plot(nT, xc, zorder=3)
+    ax.scatter(nT, xc, label='sampled sine wave', zorder=4)
+    ax.plot(nT, xc, zorder=4)
+    if compare:
+        ax.plot(t, x, label='true sine wave', zorder=3)
+        plt.legend(loc='lower left')
     ax.set_xlabel('$t=nT$')
     ax.set_ylabel('$x[n]=x_c(nT)$')
     ax.set_xlim([nT[0], nT[-1]])
@@ -53,7 +62,15 @@ if __name__ == '__main__':
         letter = input('Letter: ').strip()
 
     print('-'*30)
+    ans = input('Compare sine waves? (y/[n]): ')
+    if ans in ['y']:
+        compare = True
+    elif ans in ['', 'n']:
+        compare = False
+
+    print('-'*30)
     print(f'Selected number: {number}')
     print(f'Selected letter: {letter}')
 
-    getPlot(frequencies[number][letter], sampling_rates[number])
+    getPlot(frequencies[number][letter], sampling_rates[number],
+        compare=compare)
