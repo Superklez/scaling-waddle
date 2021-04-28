@@ -168,9 +168,10 @@ def num3(letter:str='a'):
 
             if letter == 'c':
                 freqs = frange[ind_freqs][5:]
-                nums = ['1st', '2nd', '3rd', '4th', '5th']
+                nums = ['1st', '2nd', '3rd', '4th']
                 print('Considering a one-side FFT')
-                for num, freq in zip(nums, freqs):
+                print(f'Frequency of fundamental frequency: {freqs[0]:2.1f} Hz')
+                for num, freq in zip(nums, freqs[1:]):
                     print(f'Frequency of {num} harmonic: {freq:2.1f} Hz')
 
             elif letter == 'd':
