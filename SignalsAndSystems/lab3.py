@@ -27,9 +27,10 @@ def num1(letter:str='a'):
 
         if letter == 'b':
             ind_freqs = argrelextrema(X.real, np.less, order=2)
+            print('Considering a one-side FFT')
             print('Frequency at peaks:')
-            for freq in frange[ind_freqs]:
-                print(f'{freq} Hz')
+            for freq in frange[ind_freqs][1:]:
+                print(f'{freq:4.1f} Hz')
             ax.scatter(frange[ind_freqs], X.real[ind_freqs], c='r', zorder=3)
 
         plt.tight_layout()
@@ -69,7 +70,6 @@ def num2(letter:str='a'):
     def func2(t:float, f:float=30, A:float=10):
         return A*np.sin(2*np.pi*f*t)
 
-    #if letter in ['a', 'b', 'c']:
     N = 200
     fs = 100
     df = fs/N
@@ -83,7 +83,7 @@ def num2(letter:str='a'):
 
     fig, ax = plt.subplots(1, 1, figsize=(12, 5))
     if letter == 'a':
-        ax.plot(trange, x, '.', c='r', zorder=3)
+        ax.plot(trange, x, '.', c='C1', zorder=3)
         ax.plot(trange, x, zorder=2)
         ax.set_xlabel('$t$')
         ax.set_ylabel('$x$')
@@ -105,8 +105,8 @@ def num2(letter:str='a'):
 
         if letter == 'b':
             print('Frequency at peaks:')
-            for freq in frange[ind_freqs]:
-                print(f'{freq} Hz')
+            for freq in frange[ind_freqs][2:]:
+                print(f'{freq:4.1f} Hz')
 
         elif letter == 'c':
             print('It is evident from the plot that, in the frequency ' +
@@ -129,7 +129,9 @@ def num3(letter:str='a'):
 
     Ns = 200
     fs = 100
+    df = fs/Ns
     trange = np.arange(Ns+1)/fs
+    frange = np.arange(-Ns/2, Ns/2+1)*df
 
     if letter in ['a', 'c', 'd']:
         if letter == 'a':
@@ -152,23 +154,24 @@ def num3(letter:str='a'):
                 X = func(trange, 10)
 
             X = fft(X, len(X))
-            Xrange = np.arange(len(X))
+            X = fftshift(X)
+            #Xrange = np.arange(len(X))
             ind_freqs = argrelextrema(X.real, np.greater, order=2)
 
             fig, ax = plt.subplots(1, 1, figsize=(12, 5))
-            ax.scatter(Xrange[ind_freqs], X.real[ind_freqs], c='r', zorder=3)
-            ax.plot(Xrange, X.real, zorder=2)
-            ax.set_xlabel('$n$')
+            ax.scatter(frange[ind_freqs], X.real[ind_freqs], c='r', zorder=3)
+            ax.plot(frange, X.real, zorder=2)
+            ax.set_xlabel('$f$')
             ax.set_ylabel('$X$')
-            ax.set_xlim([Xrange[0], Xrange[-1]])
+            ax.set_xlim([frange[0], frange[-1]])
             ax.grid(zorder=1)
 
             if letter == 'c':
-                freqs = X.real[ind_freqs]
+                freqs = frange[ind_freqs][5:]
                 nums = ['1st', '2nd', '3rd', '4th', '5th']
                 print('Considering a one-side FFT')
                 for num, freq in zip(nums, freqs):
-                    print(f'Frequency of {num} harmonic: {freq:4.3f} Hz')
+                    print(f'Frequency of {num} harmonic: {freq:2.1f} Hz')
 
             elif letter == 'd':
                 print('The number of peaks are directly related to the ' +
