@@ -19,31 +19,28 @@ def num1(letter:str='a'):
         X = fftshift(X)
 
         fig, ax = plt.subplots(1, 1, figsize=(12, 5))
-        ax.plot(frange, X.real, zorder=2)
+        ax.plot(frange, np.abs(X), zorder=2)
         ax.set_xlabel('$f$')
-        ax.set_ylabel('$X$')
+        ax.set_ylabel('$|X|$')
         ax.set_xlim([frange[0], frange[-1]])
         ax.grid(zorder=1)
 
         if letter == 'b':
-            ind_freqs = argrelextrema(X.real, np.less, order=2)
+            ind_freqs = argrelextrema(np.abs(X), np.greater, order=2)
             print('Considering a one-side FFT')
             print('Frequency at peaks:')
             for freq in frange[ind_freqs][1:]:
                 print(f'{freq:4.1f} Hz')
-            ax.scatter(frange[ind_freqs], X.real[ind_freqs], c='r', zorder=3)
+            ax.scatter(frange[ind_freqs], np.abs(X)[ind_freqs], c='r', zorder=3)
 
         plt.tight_layout()
         plt.show()
 
     elif letter in ['c', 'd', 'e']:
         if letter == 'c':
-            print('The frequency signal it aliases is f=10Hz. The main ' +
-                'difference between the signal and the alias signal in their ' +
-                'FFT is that the peaks of the aliased signal are "flipped" ' +
-                'as compared to the signal being aliased, i.e. the signs of ' +
-                'the peak values change (positive becomes negative and vice ' +
-                'versa).')
+            print('The frequency signal it aliases is f=10Hz. We see no ' +
+                'differences in both the magnitude of the peaks and at which ' +
+                'frequencies they occur.')
 
         elif letter == 'd':
             print('The maximum frequency signal the FFT can represent for ' +
@@ -54,12 +51,12 @@ def num1(letter:str='a'):
         elif letter == 'e':
             print('Technically, no, the Nyquist criterion is not satisfied. ' +
                 'We see that for frequencies greater than half the value of ' +
-                'the sampling frequency, the FFT "flips." This means that by ' +
-                'multiplying the values of the FFT for frequencies above ' +
-                'this threshold by -1, the FFT of the aliased signal can ' +
-                'accurately capture the FFT of the signal being aliased. ' +
-                'However, technically, the Nyquist criterion is not ' +
-                'satisfied in this case.')
+                'the sampling frequency, the FFT is an alias to another '+
+                'signal. This tells us that the FFT of certain signals could ' +
+                'accurately capture the FFT of the signal it is aliasing and ' +
+                'could be used as a representation of that signal. However, ' +
+                'technically, the Nyquist criterion is not satisfied in this ' +
+                'case.')
         print()
         input('Press ENTER to exit.')
 
@@ -95,11 +92,11 @@ def num2(letter:str='a'):
     elif letter in ['b', 'c', 'd']:
         X = fft(x, N+1)
         X = fftshift(X)
-        ind_freqs = argrelextrema(X.real, np.greater, order=2)
-        ax.scatter(frange[ind_freqs], X.real[ind_freqs], c='r', zorder=3)
-        ax.plot(frange, X.real, zorder=2)
+        ind_freqs = argrelextrema(np.abs(X), np.greater, order=2)
+        ax.scatter(frange[ind_freqs], np.abs(X)[ind_freqs], c='r', zorder=3)
+        ax.plot(frange, np.abs(X), zorder=2)
         ax.set_xlabel('$f$')
-        ax.set_ylabel('$X$')
+        ax.set_ylabel('$|X|$')
         ax.set_xlim([frange[0], frange[-1]])
         ax.grid(zorder=1)
 
@@ -156,13 +153,13 @@ def num3(letter:str='a'):
             X = fft(X, len(X))
             X = fftshift(X)
             #Xrange = np.arange(len(X))
-            ind_freqs = argrelextrema(X.real, np.greater, order=2)
+            ind_freqs = argrelextrema(np.abs(X), np.greater, order=2)
 
             fig, ax = plt.subplots(1, 1, figsize=(12, 5))
-            ax.scatter(frange[ind_freqs], X.real[ind_freqs], c='r', zorder=3)
-            ax.plot(frange, X.real, zorder=2)
+            ax.scatter(frange[ind_freqs], np.abs(X)[ind_freqs], c='r', zorder=3)
+            ax.plot(frange, np.abs(X), zorder=2)
             ax.set_xlabel('$f$')
-            ax.set_ylabel('$X$')
+            ax.set_ylabel('$|X|$')
             ax.set_xlim([frange[0], frange[-1]])
             ax.grid(zorder=1)
 
