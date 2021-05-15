@@ -78,7 +78,10 @@ def main(num:int=1):
         print(f'Window function: {window_function}')
 
         X = wave * window
-        power = power_spectrum(X[1:-1])
+        power = power_spectrum(fftshift(fft(X, N+1)))[(N+1)//2:]
+        ind_freqs = argrelextrema(power, np.greater, order=7)
+        for freq in frange[(N+1)//2:][ind_freqs]:
+            print(f'{freq:4.1f} Hz')
 
         fig, ax = plt.subplots(4, 1, figsize=(12, 17))
 
@@ -88,17 +91,22 @@ def main(num:int=1):
              'Corresponding Power Spectrum of the Windowed Signal'])):
             x, title = pair
             if i == 3:
-                ax[i].plot(trange[1:-1], x, zorder=2)
+                ax[i].plot(frange[(N+1)//2:], x, zorder=2)
+                ax[i].scatter(frange[(N+1)//2:][ind_freqs], x[ind_freqs], c='r',
+                    zorder=3)
+                ax[i].set_xlabel('Frequency (Hz)')
                 ax[i].set_ylabel('Power (dB)')
+                ax[i].set_xlim([frange[(N+1)//2:][0], frange[(N+1)//2:][-1]])
+                ax[i].set_ylim([-140, 20])
             else:
                 ax[i].plot(trange, x, zorder=2)
+                ax[i].set_xlabel('Time (s)')
                 ax[i].set_ylabel('Amplitude')
+                ax[i].set_xlim([trange[0], trange[-1]])
             if i == 1:
                 ax[i].set_title(f'{title} ({window_function})')
             else:
                 ax[i].set_title(title)
-            ax[i].set_xlabel('Time (s)')
-            ax[i].set_xlim([trange[0], trange[-1]])
             ax[i].grid(zorder=1)
 
         plt.tight_layout()
