@@ -31,14 +31,24 @@ def main(num:int=1):
         for freq in frange[(N+1)//2:][ind_freqs]:
             print(f'{freq:4.1f} Hz')
 
-        fig, ax = plt.subplots(1, 1, figsize=(12, 5))
-        ax.plot(frange[(N+1)//2:], Pw, zorder=2)
-        ax.set_xlabel('Frequency (Hz)')
-        ax.set_ylabel('Power (dB)')
-        ax.set_xlim([frange[(N+1)//2:][0], frange[(N+1)//2:][-1]])
-        ax.set_ylim([-140, 20])
-        ax.scatter(frange[(N+1)//2:][ind_freqs], Pw[ind_freqs], c='r', zorder=3)
-        ax.grid(zorder=1)
+        fig, ax = plt.subplots(2, 1, figsize=(12, 8), dpi=200)
+        for i, pair in enumerate(zip([wave, Pw],
+            ['Sum of Two Sine Waves', 'Corresponding Power Spectrum'])):
+            x, title = pair
+            if i == 0:
+                ax[i].plot(trange, x, zorder=2)
+                ax[i].set_xlabel('Time (s)')
+                ax[i].set_ylabel('Amplitude')
+                ax[i].set_xlim([trange[0], trange[-1]])
+            else:
+                ax[i].plot(frange[(N+1)//2:], x, zorder=2)
+                ax[i].scatter(frange[(N+1)//2:][ind_freqs], Pw[ind_freqs], c='r', zorder=3)
+                ax[i].set_xlabel('Frequency (Hz)')
+                ax[i].set_ylabel('Power (dB)')
+                ax[i].set_xlim([frange[(N+1)//2:][0], frange[(N+1)//2:][-1]])
+                ax[i].set_ylim([-140, 20])
+            ax[i].set_title(title)
+            ax[i].grid(zorder=1)
         plt.tight_layout()
         plt.show()
 
@@ -76,7 +86,7 @@ def main(num:int=1):
             [wave, window, X, power],
             ['Input Signal', 'Window Function', 'Windowed Signal',
              'Corresponding Power Spectrum of the Windowed Signal'])):
-            x, label = pair
+            x, title = pair
             if i == 3:
                 ax[i].plot(trange[1:-1], x, zorder=2)
                 ax[i].set_ylabel('Power (dB)')
@@ -84,9 +94,9 @@ def main(num:int=1):
                 ax[i].plot(trange, x, zorder=2)
                 ax[i].set_ylabel('Amplitude')
             if i == 1:
-                ax[i].set_title(f'{label} ({window_function})')
+                ax[i].set_title(f'{title} ({window_function})')
             else:
-                ax[i].set_title(label)
+                ax[i].set_title(title)
             ax[i].set_xlabel('Time (s)')
             ax[i].set_xlim([trange[0], trange[-1]])
             ax[i].grid(zorder=1)
