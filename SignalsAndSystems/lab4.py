@@ -42,7 +42,8 @@ def main(num:int=1):
                 ax[i].set_xlim([trange[0], trange[-1]])
             else:
                 ax[i].plot(frange[(N+1)//2:], x, zorder=2)
-                ax[i].scatter(frange[(N+1)//2:][ind_freqs], Pw[ind_freqs], c='r', zorder=3)
+                ax[i].scatter(frange[(N+1)//2:][ind_freqs], Pw[ind_freqs],
+                    c='r', zorder=3)
                 ax[i].set_xlabel('Frequency (Hz)')
                 ax[i].set_ylabel('Power (dB)')
                 ax[i].set_xlim([frange[(N+1)//2:][0], frange[(N+1)//2:][-1]])
