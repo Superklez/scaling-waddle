@@ -26,7 +26,7 @@ def bisection(F, xminus, xplus, max_iters=1000, eps=1e-6):
         else:
             xminus = x
         if abs(F(x)) < eps:
-            #print(f'Root found with precision eps = {eps}')
+            print(f'Root found with precision eps = {eps}')
             break
         if i == max_iters - 1:
             print(f'Root NOT found after Nmax iterations')

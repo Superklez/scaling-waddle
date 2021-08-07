@@ -11,8 +11,8 @@ def central_difference(function, t, h=1e-6, mode='half'):
         return (function(t + h / 4) - function(t - h / 4)) / (h / 2)
 
 def extrapolated_difference(function, t, h=1e-6):
-    cd1 = CentralDifference(function, t, h, 'quarter')
-    cd2 = CentralDifference(function, t, h, 'half')
+    cd1 = central_difference(function, t, h, 'quarter')
+    cd2 = central_difference(function, t, h, 'half')
     return (4 * cd1 - cd2) / 3
 
 def higher_order_derivative(function, t, h=1e-6, order=2, method='cd'):
