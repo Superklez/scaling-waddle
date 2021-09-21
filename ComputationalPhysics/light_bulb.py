@@ -51,8 +51,14 @@ def eta(T, N=100):
     return gaussian_quadrature(integral, lower_bound / T, upper_bound / T, N)
 
 def golden_ratio_search(x1, x4, acc=1):
-    x2 = x1 + (x4 - x1) / const.golden_ratio
-    x3 = x4 - (x4 - x1) / const.golden_ratio
+    """
+    This is a slight modification of the golden ratio search, where we take
+    the negative of the function outputs. This is necessary because the eta
+    function being used returns a positive value, and the golden ratio search
+    searches for the minima.
+    """
+    x2 = x4 - (x4 - x1) / const.golden_ratio
+    x3 = x1 + (x4 - x1) / const.golden_ratio
     
     f1 = eta(x1)
     f2 = eta(x2)
@@ -60,7 +66,7 @@ def golden_ratio_search(x1, x4, acc=1):
     f4 = eta(x4)
     
     while (x4 - x1) > acc:
-        if f2 < f3 :
+        if f2 > f3 :
             x4, f4 = x3, f3
             x3, f3 = x2, f2
             x2 = x4 - (x4 - x1) / const.golden_ratio
