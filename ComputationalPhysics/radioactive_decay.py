@@ -1,6 +1,7 @@
 import random
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
 
 def main():
     init_atoms = 10000
@@ -67,19 +68,68 @@ def main():
         num_Po_213 += decay_to_Po
 
     # Plot results
+    # fig, ax = plt.subplots(1, 1, figsize=(7, 5))
+
+    # ax.plot(t_points, Bi_213_points, label="Bismuth-213")
+    # ax.plot(t_points, Po_213_points, label="Polonium-213")
+    # ax.plot(t_points, Tl_209_points, label="Thallium-209")
+    # ax.plot(t_points, Pb_209_points, label="Lead-209")
+    # ax.plot(t_points, Bi_209_points, label="Bismuth-209")
+    # ax.grid(True)
+    # ax.set_xlabel("Time ($s$)")
+    # ax.set_ylabel("Number of atoms")
+    # plt.legend(loc="best")
+    # plt.tight_layout()
+    # plt.show()
+
+    # fig, ax = plt.subplots(1, 1, figsize = (7, 5))
+    
+    # def init():
+    #     ax.set_xlim([0, t_max])
+    #     ax.set_xlim([0, t_max])
+    #     ax.set_ylim([0, 11000])
+    #     ax.grid(True)
+
+    # def animate(i):
+    #     ax.cla() # clear the previous image
+    #     ax.plot(t_points[:i], Bi_213_points[:i]) # plot the line
+    #     ax.set_xlim([0, t_max]) # fix the x axis
+    #     ax.set_ylim([0, 11000]) # fix the y axis
+    #     ax.grid(True)
+
     fig, ax = plt.subplots(1, 1, figsize=(7, 5))
-
-    ax.plot(t_points, Bi_213_points, label="Bismuth-213")
-    ax.plot(t_points, Po_213_points, label="Polonium-213")
-    ax.plot(t_points, Tl_209_points, label="Thallium-209")
-    ax.plot(t_points, Pb_209_points, label="Lead-209")
-    ax.plot(t_points, Bi_209_points, label="Bismuth-209")
     ax.grid(True)
-    ax.set_xlabel("Time ($s$)")
-    ax.set_ylabel("Number of atoms")
-    plt.legend(loc="best")
-    plt.tight_layout()
-    plt.show()
+    ax.set_xlim([0, 20000])
+    ax.set_ylim([0, 11000]) 
 
+    line1, = ax.plot([], [], label="Bi-213")
+    line2, = ax.plot([], [], label="Po-213")
+    line3, = ax.plot([], [], label="Tl-209")
+    line4, = ax.plot([], [], label="Pb-209")
+    line5, = ax.plot([], [], label="Bi-209")
+
+    def init():
+        line1.set_data([], [])
+        line2.set_data([], [])
+        line3.set_data([], [])
+        line4.set_data([], [])
+        line5.set_data([], [])
+        return line1, line2, line3, line4, line5
+
+    def animate(i):
+        i *= 100
+        line1.set_data(t_points[:i], Bi_213_points[:i])
+        line2.set_data(t_points[:i], Po_213_points[:i])
+        line3.set_data(t_points[:i], Tl_209_points[:i])
+        line4.set_data(t_points[:i], Pb_209_points[:i])
+        line5.set_data(t_points[:i], Bi_209_points[:i])
+        return line1, line2, line3, line4, line5
+
+    anim = FuncAnimation(fig, animate, init_func=init, frames=t_max,
+        interval=h, repeat=True, blit=True)
+    plt.legend(loc="best")
+    # anim.save("radioactive_decay.mp4", dpi=300, writer="ffmpeg", fps=30)
+    plt.show()
+    
 if __name__ == "__main__":
     main()
