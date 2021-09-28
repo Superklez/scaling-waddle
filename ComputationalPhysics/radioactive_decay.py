@@ -127,6 +127,8 @@ def main():
 
     anim = FuncAnimation(fig, animate, init_func=init, frames=t_max,
         interval=h, repeat=True, blit=True)
+    plt.xlabel("Time ($s$)")
+    plt.ylabel("Number of atoms")
     plt.legend(loc="best")
     # anim.save("radioactive_decay.mp4", dpi=300, writer="ffmpeg", fps=30)
     plt.show()
