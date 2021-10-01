@@ -99,8 +99,8 @@ def main():
 
     fig, ax = plt.subplots(1, 1, figsize=(7, 5))
     ax.grid(True)
-    ax.set_xlim([0, 20000])
-    ax.set_ylim([0, 11000]) 
+    ax.set_xlim([0, t_max])
+    ax.set_ylim([0, int(1.1*init_atoms)]) 
 
     line1, = ax.plot([], [], label="Bi-213")
     line2, = ax.plot([], [], label="Po-213")
